@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HexaLive — TV Française en Direct | Gratuit & Légal | PWA</title>
+<meta name="description" content="Regardez TF1, France 2, M6, Arte et 26 chaînes françaises en direct gratuitement et légalement. Sans inscription. HD. 100% légal.">
+<meta name="theme-color" content="#080C14">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="pub-top">
+  <span>ESPACE PUBLICITAIRE — Future bannière AdSense 728x90 • Ton 1er revenu, même avec 100 vues/jour</span>
+  <a href="#monet" class="pub-top-cta">Comment activer ?</a>
+</div>
+
+<div id="watchBar" class="watch-bar" style="display:none">
+  <div class="container watch-bar-inner">
+    <div class="watch-left">
+      <span class="live-badge small">● EN COURS</span>
+      <span id="watchText">Tu regardes <strong>France 2</strong> en direct</span>
+      <span class="watch-sub">— Laisse cet onglet ouvert pour zapper → plus de pub vue = plus de revenu</span>
+    </div>
+    <div class="watch-actions">
+      <button class="btn-small" onclick="document.getElementById('direct').scrollIntoView({behavior:'smooth'})">⚡ Zapper une autre chaîne</button>
+      <button class="btn-primary small" id="watchReopen" target="_blank">↗ Rouvrir le direct</button>
+      <button class="watch-close" onclick="document.getElementById('watchBar').style.display='none'">✕</button>
+    </div>
+  </div>
+</div>
+
+<header class="header">
+  <div class="container header-inner">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 2 L28 9 L28 23 L16 30 L4 23 L4 9 Z" stroke="#00E5CC" stroke-width="2.2" fill="rgba(0,229,204,0.15)"/><path d="M16 8 L22 11.5 L22 20.5 L16 24 L10 20.5 L10 11.5 Z" fill="#00E5CC"/><circle cx="16" cy="16" r="3.5" fill="#080C14"/></svg>
+      </div>
+      <div>
+        <div class="logo-text">HEXA<span>LIVE</span></div>
+        <div class="logo-sub">GRATUIT • LÉGAL • HD</div>
+      </div>
+    </div>
+    <div class="search-wrap">
+      <input id="searchInput" type="text" placeholder="Rechercher TF1, France 2, Arte, foot...">
+      <span class="search-icon">⌕</span>
+    </div>
+    <nav class="nav">
+      <a href="#direct" class="active">Direct</a>
+      <a href="#ce-soir">Ce soir</a>
+      <a href="#replay">Replay</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-ghost" id="btnInstall" style="display:none">📲 Installer</button>
+      <button class="btn-primary" onclick="document.getElementById('direct').scrollIntoView({behavior:'smooth'})">▶ Direct</button>
+    </div>
+    <button class="burger" id="burger">☰</button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#direct">Direct</a><a href="#ce-soir">Ce soir 21h</a><a href="#replay">Replay</a>
+    <div class="search-wrap mobile"><input id="searchInputMobile" type="text" placeholder="Rechercher une chaîne..."><span class="search-icon">⌕</span></div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-text">
+      <div class="badge-hero"><span class="dot"></span> 100% LÉGAL — Agrégateur officiel France.tv • TF1+ • M6+ • Arte • 26 chaînes</div>
+      <h1>La télévision<br>française,<br><span class="gradient">enfin réunie.</span></h1>
+      <p>Zappe entre <strong>TF1, France 2, M6, Arte</strong> en 1 clic. Sans créer 6 comptes. Sans pub agressive. Contrairement à Empire Sport, on ne pirate rien.</p>
+      <div class="hero-cta">
+        <button class="btn-primary large" onclick="document.getElementById('direct').scrollIntoView({behavior:'smooth'})">▶ Lancer le direct</button>
+        <button class="btn-ghost large" id="btnFavHero">♡ Ajouter à mes favoris</button>
+      </div>
+      <div class="trust">
+        <span>✓ Sans inscription</span><span>✓ Sans VPN</span><span>✓ PWA installable</span><span>✓ Reste sur HexaLive</span>
+      </div>
+      <div class="social-proof">
+        <div class="avatars"><span>●</span><span>●</span><span>●</span></div>
+        <span><strong id="liveCount">14 283</strong> personnes regardent en ce moment • Mis à jour à l'instant</span>
+      </div>
+    </div>
+    <div class="hero-player">
+      <div class="player-card" id="heroPlayerCard">
+        <div class="player-top">
+          <span class="live-badge">● EN DIRECT</span>
+          <span class="player-channel" id="heroChannelName">Choisis une chaîne ↓</span>
+          <button class="btn-heart" id="heroFavBtn" title="Ajouter aux favoris">♡</button>
+        </div>
+        <div class="player-screen" id="heroScreen">
+          <div class="player-placeholder" id="heroPlaceholder">
+            <div class="play-icon">▶</div>
+            <p>Clique sur une chaîne, la vidéo reste ici</p>
+            <small>Lecture intégrée • Tu ne quittes jamais HexaLive → plus de temps sur le site = plus de pub vue = plus de revenu pour toi</small>
+          </div>
+          <iframe id="heroIframe" style="display:none" allowfullscreen allow="autoplay; fullscreen"></iframe>
+        </div>
+        <div class="player-controls">
+          <span id="heroMeta">HD • Favoris • Reprise auto</span>
+          <span class="pub-label">PUB 5s avant lecture (ton revenu)</span>
+        </div>
+        <div class="player-actions">
+          <button class="btn-small" id="btnOpenOfficial" style="display:none" target="_blank">Ouvrir sur site officiel ↗</button>
+          <span class="viewer-count">👁 <span id="viewerCount">8 421</span> en direct</span>
+        </div>
+      </div>
+      <div class="pub-side">
+        <span>PUB 300x250 — AdSense • Reste affichée pendant la vidéo</span>
+        <small>Revenu passif tant que l'utilisateur regarde</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats-bar">
+  <div class="container stats-inner">
+    <div><strong>26</strong><span>Chaînes direct</span></div>
+    <div><strong>1 clic</strong><span>pour zapper</span></div>
+    <div><strong>0€</strong><span>à vie</span></div>
+    <div><strong>100%</strong><span>Légal & stable</span></div>
+  </div>
+</section>
+
+<main class="container">
+  <!-- RETENTION ROW 1 : REPRENDRE -->
+  <section class="row-section" id="rowContinue" style="display:none">
+    <div class="row-head">
+      <h3>▶ Reprendre la lecture</h3>
+      <button class="link" onclick="clearHistory()">Effacer</button>
+    </div>
+    <div class="h-scroll" id="continueGrid"></div>
+  </section>
+
+  <!-- RETENTION ROW 2 : FAVORIS -->
+  <section class="row-section" id="rowFav" style="display:none">
+    <div class="row-head">
+      <h3>♡ Mes favoris</h3>
+      <span class="muted-small">Stocké sur l'appareil • Revient même après fermeture</span>
+    </div>
+    <div class="h-scroll" id="favGrid"></div>
+  </section>
+
+  <!-- CE SOIR 21H - HOOK RETOUR -->
+  <section id="ce-soir" class="section highlight-section">
+    <div class="section-head">
+      <h2>📺 Ce soir à 21h — à ne pas manquer</h2>
+      <span class="badge-live">Mis à jour quotidiennement → les gens reviennent chaque soir</span>
+    </div>
+    <div class="grid-tonight" id="tonightGrid">
+      <!-- JS inject -->
+    </div>
+  </section>
+
+  <section id="direct" class="section">
+    <div class="section-head">
+      <h2>Chaînes françaises en direct</h2>
+      <div class="filters">
+        <button class="filter active" data-filter="all">Toutes</button>
+        <button class="filter" data-filter="tnt">TNT</button>
+        <button class="filter" data-filter="info">Info</button>
+        <button class="filter" data-filter="fav">♡ Favoris</button>
+      </div>
+    </div>
+    <div class="grid-channels" id="gridChannels"></div>
+    <div class="pub-infeed">
+      <span>PUB IN-FEED — Entre les chaînes • Très visible, non bloquante</span>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER / TELEGRAM - RETENTION -->
+  <section class="cta-retention">
+    <div class="cta-box">
+      <div>
+        <h3>🔔 Ne rate plus le match / film du soir</h3>
+        <p>Les gens oublient de revenir. Le canal Telegram + alerte les fait revenir tous les jours. Gratuit.</p>
+        <ul>
+          <li>✓ Alerte "Match du PSG à 21h" en 1 clic</li>
+          <li>✓ Programme du soir envoyé à 18h</li>
+        </ul>
+      </div>
+      <div class="cta-form">
+        <input id="emailInput" type="email" placeholder="ton@email.com">
+        <button class="btn-primary" onclick="subscribe()">Recevoir le programme gratuit</button>
+        <a href="#" class="btn-ghost" style="text-align:center;display:block;margin-top:8px">Ou rejoindre Telegram →</a>
+        <small class="muted">0€ avec Brevo (ex Sendinblue) jusqu'à 300 mails/jour • Toi tu ne payes rien</small>
+      </div>
+    </div>
+  </section>
+
+  <section id="replay" class="section">
+    <div class="section-head">
+      <h2>Films & Séries gratuits (replay légal)</h2>
+      <a href="#" class="link">Voir tout →</a>
+    </div>
+    <p class="section-desc">On référence uniquement les replays gratuits officiels. L'utilisateur clique → reste sur HexaLive en iframe ou nouvel onglet. Toi tu gardes la pub autour.</p>
+    <div class="grid-replay">
+      <div class="replay-card"><div class="replay-thumb" style="background: linear-gradient(135deg, #0f172a, #1e293b)"><span>ARTE</span></div><div class="replay-info"><h4>1500 Docu Arte gratuits</h4><p>Le top du moment</p><a href="https://www.arte.tv/fr/" target="_blank" class="btn-small">Voir sur Arte →</a></div></div>
+      <div class="replay-card"><div class="replay-thumb" style="background: linear-gradient(135deg, #1e1b4b, #312e81)"><span>FRANCE.TV</span></div><div class="replay-info"><h4>Séries France.tv</h4><p>Alex Hugo, Cassandre</p><a href="https://www.france.tv/" target="_blank" class="btn-small">Voir sur France.tv →</a></div></div>
+      <div class="replay-card"><div class="replay-thumb" style="background: linear-gradient(135deg, #0f172a, #334155)"><span>TF1+</span></div><div class="replay-info"><h4>TF1+ Replay</h4><p>Koh-Lanta, Star Ac</p><a href="https://www.tf1.fr/" target="_blank" class="btn-small">Voir sur TF1+ →</a></div></div>
+      <div class="replay-card"><div class="replay-thumb" style="background: linear-gradient(135deg, #111827, #4b5563)"><span>M6+</span></div><div class="replay-info"><h4>M6+ Replay</h4><p>Top Chef, Mariés</p><a href="https://www.m6.fr/" target="_blank" class="btn-small">Voir sur M6+ →</a></div></div>
+    </div>
+  </section>
+
+  <section id="monet" class="section legal-section">
+    <div class="legal-grid">
+      <div class="legal-card bad">
+        <h3>❌ Empire Sport (pirate)</h3>
+        <ul>
+          <li>Flux volés → bloqué chaque mois</li>
+          <li>Pop-ups qui font fuir → 70% rebond</li>
+          <li>Banni par Google → pub à 2€ CPM</li>
+          <li>Revenu instable, risque amende</li>
+        </ul>
+      </div>
+      <div class="legal-card good">
+        <h3>✓ HexaLive (business malin)</h3>
+        <ul>
+          <li>Reste sur le site → temps x3 → pub x3</li>
+          <li>Favoris + Reprendre → revient demain</li>
+          <li>Google adore → pub à 15€ CPM</li>
+          <li>Stable, vendable, 10€/an seulement</li>
+        </ul>
+      </div>
+    </div>
+    <div class="monet-box">
+      <h3>💰 Plan business 10€/an — Comment tu gagnes sans dépenser</h3>
+      <div class="monet-grid">
+        <div><strong>1. Pub sticky</strong><span>AdSense + TheMoneytizer. L'utilisateur reste 8 min au lieu de 2 → 4x plus de pubs vues.</span><b>8-20€ / 1000 vues</b></div>
+        <div><strong>2. Affiliation</strong><span>Bannière "Regarder sans coupure à l'étranger ? VPN" → 30€/vente. 1 vente / 500 visites = rentable dès 50 visites/jour.</span><b>10-30€ / vente</b></div>
+        <div><strong>3. Telegram + Mail</strong><span>Tu re-cibles gratuit tous les soirs. 0€ vs payer TikTok Ads. C'est ça qui fait revenir.</span><b>0€ coût</b></div>
+      </div>
+      <p class="muted">Coût fixe : 10€ nom de domaine/an. Hébergement Vercel gratuit jusqu'à 100k visites/mois. Tout le reste (PWA, favoris, newsletter Brevo) est gratuit.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>
+      <div class="logo-text">HEXA<span>LIVE</span></div>
+      <p>Agrégateur légal. N'héberge aucune vidéo. Redirige ou intègre les lecteurs officiels.</p>
+      <p class="muted">SEO : chaque chaîne a sa page #tf1 #france2 → Google t'aime.</p>
+    </div>
+    <div>
+      <h4>Légal</h4>
+      <a href="#">Mentions légales</a><a href="#">CGU</a><a href="#">Contact</a>
+    </div>
+    <div>
+      <h4>Installer l'app (0€)</h4>
+      <p>Android : Menu → Installer. iPhone : Partager → Écran d'accueil.</p>
+      <button class="btn-small" id="btnInstall2" style="display:none">📲 Installer HexaLive</button>
+    </div>
+  </div>
+  <div class="copyright">© 2026 HexaLive — Business légal durable. 10€/an. Pense rétention, pas piratage.</div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-head">
+      <h3 id="modalTitle">TF1</h3>
+      <span class="live-badge">● DIRECT OFFICIEL</span>
+      <button class="btn-heart" id="modalFavBtn">♡ Favori</button>
+    </div>
+    <div class="modal-player" id="modalPlayer"></div>
+    <div class="modal-actions">
+      <a id="modalLink" href="#" target="_blank" class="btn-primary">Ouvrir sur site officiel →</a>
+      <button class="btn-ghost" onclick="document.getElementById('modal').classList.remove('open')">Rester sur HexaLive</button>
+    </div>
+    <p class="modal-legal">Astuce business : le lecteur intégré garde l'utilisateur sur HexaLive → il voit tes pubs. La redirection le fait partir → tu perds de l'argent. On privilégie l'intégré.</p>
+    <div class="pub-modal"><span>PUB VIDÉO 5s — Ton revenu AdSense (pré-roll)</span></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
+</body>
+</html>

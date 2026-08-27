@@ -1,0 +1,21 @@
+{
+  "name": "HexaLive — TV Française Direct Légal",
+  "short_name": "HexaLive",
+  "description": "Regardez TF1, France 2, M6, Arte en direct gratuitement et légalement",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#080C14",
+  "theme_color": "#00E5CC",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
