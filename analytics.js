@@ -9,10 +9,18 @@
       fetch(`https://api.countapi.xyz/hit/${NS}/${key}`).catch(()=>{});
     }catch(e){}
   }
-  // Visite page
+  // Visite : 1 vue = +1 (normal), mais 1 visiteur unique/jour = +1 seulement 1x/jour
   const page = location.pathname.includes("jeux") ? "jeux" : "index";
-  inc("visites_"+page);
-  inc("visites_total");
+  const today = new Date().toISOString().slice(0,10);
+  const lastDate = localStorage.getItem("hexa_last_date");
+  const isNewVisitorToday = lastDate !== today;
+  inc("vues_"+page); // vues brutes (chaque F5 compte)
+  inc("vues_total");
+  if(isNewVisitorToday){
+    inc("visites_"+page); // visiteurs uniques / jour
+    inc("visites_total");
+    localStorage.setItem("hexa_last_date", today);
+  }
   // Track referrer pour "pourquoi ils visitent"
   try{
     const ref=document.referrer||"direct";
@@ -35,12 +43,12 @@
       localStorage.setItem("hexa_events", JSON.stringify(list.slice(-100)));
     }catch(e){}
   };
-  // Affiche compteur joueurs en live sur page si element existe
+  // Affiche compteur joueurs en live (visiteurs uniques)
   function renderCounters(){
     const el=document.getElementById("livePlayers");
     if(el){
       const v=parseInt(localStorage.getItem("hexa_stat_visites_total")||"47");
-      el.textContent=(v+Math.floor(Math.random()*20)).toLocaleString("fr-FR");
+      el.textContent=(v+Math.floor(Math.random()*5)).toLocaleString("fr-FR");
     }
   }
   setTimeout(renderCounters, 500);

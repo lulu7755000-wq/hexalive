@@ -55,11 +55,11 @@
 <script src="analytics.js"></script>
 <script>
 (function(){
-  const keys=["visites_total","visites_index","visites_jeux","src_direct","src_tiktok","src_youtube","src_instagram","src_google","src_twitter"];
+  const items=[["visites_total","Visiteurs uniques/jour"],["vues_total","Vues totales (F5 inclus)"],["visites_index","Visiteurs index"],["vues_index","Vues index"],["visites_jeux","Visiteurs jeux"],["vues_jeux","Vues jeux"]];
   const box=document.getElementById("adminStats");
-  box.innerHTML=keys.map(k=>{
+  box.innerHTML=items.map(([k,label])=>{
     const v=localStorage.getItem("hexa_stat_"+k)||"0";
-    return `<div style="background:rgba(255,255,255,0.06);border:1px solid #1E3050;border-radius:10px;padding:10px"><div style="font-size:11px;color:#8A94AD">${k}</div><div style="font-size:20px;font-weight:800">${v}</div></div>`;
+    return `<div style="background:rgba(255,255,255,0.06);border:1px solid #1E3050;border-radius:10px;padding:10px"><div style="font-size:11px;color:#8A94AD">${label}</div><div style="font-size:20px;font-weight:800">${v}</div></div>`;
   }).join("");
   const why=["why_sport","why_info","why_jeux"];
   document.getElementById("adminWhy").innerHTML=why.map(k=>{
