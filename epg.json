@@ -1,0 +1,262 @@
+{
+  "tf1": [
+    {
+      "h": "06:00",
+      "title": "Info tf1"
+    },
+    {
+      "h": "08:00",
+      "title": "Mag tf1"
+    },
+    {
+      "h": "12:00",
+      "title": "Film tf1"
+    },
+    {
+      "h": "14:00",
+      "title": "Sport tf1"
+    },
+    {
+      "h": "19:00",
+      "title": "Mag tf1"
+    },
+    {
+      "h": "21:00",
+      "title": "Film tf1"
+    }
+  ],
+  "france2": [
+    {
+      "h": "06:00",
+      "title": "Mag france2"
+    },
+    {
+      "h": "08:00",
+      "title": "Docu france2"
+    },
+    {
+      "h": "12:00",
+      "title": "Jeunesse france2"
+    },
+    {
+      "h": "14:00",
+      "title": "Film france2"
+    },
+    {
+      "h": "19:00",
+      "title": "Mag france2"
+    },
+    {
+      "h": "21:00",
+      "title": "Film france2"
+    }
+  ],
+  "france3": [
+    {
+      "h": "06:00",
+      "title": "Docu france3"
+    },
+    {
+      "h": "08:00",
+      "title": "Docu france3"
+    },
+    {
+      "h": "12:00",
+      "title": "Info france3"
+    },
+    {
+      "h": "14:00",
+      "title": "Mag france3"
+    },
+    {
+      "h": "19:00",
+      "title": "Info france3"
+    },
+    {
+      "h": "21:00",
+      "title": "Docu france3"
+    }
+  ],
+  "m6": [
+    {
+      "h": "06:00",
+      "title": "Mag m6"
+    },
+    {
+      "h": "08:00",
+      "title": "Info m6"
+    },
+    {
+      "h": "12:00",
+      "title": "Info m6"
+    },
+    {
+      "h": "14:00",
+      "title": "Docu m6"
+    },
+    {
+      "h": "19:00",
+      "title": "Sport m6"
+    },
+    {
+      "h": "21:00",
+      "title": "Jeunesse m6"
+    }
+  ],
+  "arte": [
+    {
+      "h": "06:00",
+      "title": "Film arte"
+    },
+    {
+      "h": "08:00",
+      "title": "Film arte"
+    },
+    {
+      "h": "12:00",
+      "title": "Docu arte"
+    },
+    {
+      "h": "14:00",
+      "title": "Info arte"
+    },
+    {
+      "h": "19:00",
+      "title": "Mag arte"
+    },
+    {
+      "h": "21:00",
+      "title": "Info arte"
+    }
+  ],
+  "bfmtv": [
+    {
+      "h": "06:00",
+      "title": "Jeunesse bfmtv"
+    },
+    {
+      "h": "08:00",
+      "title": "Mag bfmtv"
+    },
+    {
+      "h": "12:00",
+      "title": "Docu bfmtv"
+    },
+    {
+      "h": "14:00",
+      "title": "Docu bfmtv"
+    },
+    {
+      "h": "19:00",
+      "title": "Info bfmtv"
+    },
+    {
+      "h": "21:00",
+      "title": "Docu bfmtv"
+    }
+  ],
+  "c8": [
+    {
+      "h": "06:00",
+      "title": "Sport c8"
+    },
+    {
+      "h": "08:00",
+      "title": "Docu c8"
+    },
+    {
+      "h": "12:00",
+      "title": "Film c8"
+    },
+    {
+      "h": "14:00",
+      "title": "Film c8"
+    },
+    {
+      "h": "19:00",
+      "title": "Sport c8"
+    },
+    {
+      "h": "21:00",
+      "title": "Sport c8"
+    }
+  ],
+  "lequipe": [
+    {
+      "h": "06:00",
+      "title": "Mag lequipe"
+    },
+    {
+      "h": "08:00",
+      "title": "Film lequipe"
+    },
+    {
+      "h": "12:00",
+      "title": "Mag lequipe"
+    },
+    {
+      "h": "14:00",
+      "title": "Film lequipe"
+    },
+    {
+      "h": "19:00",
+      "title": "Docu lequipe"
+    },
+    {
+      "h": "21:00",
+      "title": "Info lequipe"
+    }
+  ],
+  "eurosport1": [
+    {
+      "h": "06:00",
+      "title": "Mag eurosport1"
+    },
+    {
+      "h": "08:00",
+      "title": "Film eurosport1"
+    },
+    {
+      "h": "12:00",
+      "title": "Info eurosport1"
+    },
+    {
+      "h": "14:00",
+      "title": "Mag eurosport1"
+    },
+    {
+      "h": "19:00",
+      "title": "Mag eurosport1"
+    },
+    {
+      "h": "21:00",
+      "title": "Jeunesse eurosport1"
+    }
+  ],
+  "gulli": [
+    {
+      "h": "06:00",
+      "title": "Jeunesse gulli"
+    },
+    {
+      "h": "08:00",
+      "title": "Jeunesse gulli"
+    },
+    {
+      "h": "12:00",
+      "title": "Docu gulli"
+    },
+    {
+      "h": "14:00",
+      "title": "Info gulli"
+    },
+    {
+      "h": "19:00",
+      "title": "Docu gulli"
+    },
+    {
+      "h": "21:00",
+      "title": "Docu gulli"
+    }
+  ]
+}

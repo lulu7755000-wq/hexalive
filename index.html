@@ -6,10 +6,21 @@
 <title>HexaLive — TV Française en Direct | Gratuit & Légal | PWA</title>
 <meta name="description" content="Regardez TF1, France 2, M6, Arte et 26 chaînes françaises en direct gratuitement et légalement. Sans inscription. HD. 100% légal.">
 <meta name="theme-color" content="#080C14">
+<link rel="canonical" href="https://lulu7755000-wq.github.io/hexalive/">
+<meta property="og:title" content="HexaLive — 40+ chaînes françaises en direct gratuit & légal">
+<meta property="og:description" content="Zappe entre TF1, France 2, M6, Arte, L'Équipe, Gulli en 1 clic. Gratuit, légal, sans inscription, PWA.">
+<meta property="og:url" content="https://lulu7755000-wq.github.io/hexalive/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://lulu7755000-wq.github.io/hexalive/icons/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="style.css">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"HexaLive","url":"https://lulu7755000-wq.github.io/hexalive/","description":"Agrégateur légal 40+ chaînes françaises en direct gratuit","potentialAction":{"@type":"SearchAction","target":"https://lulu7755000-wq.github.io/hexalive/?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
 </head>
 <body>
 <div class="pub-top">
@@ -96,7 +107,7 @@
             <p>Clique sur une chaîne, la vidéo reste ici</p>
             <small>Lecture intégrée • Tu ne quittes jamais HexaLive → plus de temps sur le site = plus de pub vue = plus de revenu pour toi</small>
           </div>
-          <iframe id="heroIframe" style="display:none" allowfullscreen allow="autoplay; fullscreen"></iframe>
+          <iframe id="heroIframe" style="display:none" loading="lazy" fetchpriority="low" allowfullscreen allow="autoplay; fullscreen"></iframe>
         </div>
         <div class="player-controls">
           <span id="heroMeta">HD • Favoris • Reprise auto</span>
@@ -168,6 +179,11 @@
     </div>
   </section>
 
+  <section id="epg" class="section">
+    <div class="section-head"><h2>📅 Programme heure par heure (EPG)</h2><span class="muted" style="font-size:11px">Données EPG gratuites — mise à jour quotidienne</span></div>
+    <div id="epgGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px"></div>
+    <script>fetch('epg.json').then(r=>r.json()).then(d=>{const g=document.getElementById('epgGrid'); g.innerHTML=Object.entries(d).slice(0,8).map(([id,progs])=>`<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px"><b style="color:var(--cyan)">${id.toUpperCase()}</b><div style="font-size:12px;color:var(--muted);margin-top:6px">${progs.map(p=>`<div>${p.h} — ${p.title}</div>`).join('')}</div></div>`).join('')}).catch(()=>{})</script>
+  </section>
   <section id="direct" class="section">
     <div class="section-head">
       <h2>Chaînes françaises en direct</h2>
