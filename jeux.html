@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HexaLive Jeux — Quiz, Pronos, Roue & Mini-jeux | 100% Gratuit</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.jeux-hero{padding:28px 0 14px;text-align:center;background:radial-gradient(600px 300px at 50% 0%, rgba(0,229,204,0.12), transparent)}
+.jeux-hero h1{font-family:Space Grotesk;font-size:38px}
+.jeux-hero p{color:var(--muted);max-width:620px;margin:10px auto}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:14px 0;scrollbar-width:none}
+.tab{white-space:nowrap;padding:10px 16px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,0.06);color:var(--muted);font-weight:700;cursor:pointer}
+.tab.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.panel{display:none}
+.panel.active{display:block}
+.game-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px}
+.quiz-q{font-weight:700;margin:12px 0 8px}
+.quiz-opt{display:block;width:100%;text-align:left;padding:10px 14px;margin:6px 0;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,0.04);color:var(--text);cursor:pointer}
+.quiz-opt.correct{background:rgba(0,229,204,0.18);border-color:var(--cyan)}
+.quiz-opt.wrong{background:rgba(255,46,46,0.15);border-color:#FF2E2E}
+.prono-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.prono-btn{padding:7px 10px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,0.06);color:var(--text);cursor:pointer;font-weight:700}
+.prono-btn.active{background:var(--cyan);color:#02141A;border-color:var(--cyan)}
+.wheel-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+#wheel{width:320px;height:320px;border-radius:50%;border:4px solid var(--border);background:conic-gradient(from 0deg, #00E5CC 0 60deg, #7C5CFF 60deg 120deg, #F59E0B 120deg 180deg, #FF2E2E 180deg 240deg, #0A7A2E 240deg 300deg, #FF6B00 300deg 360deg);position:relative;transition:transform 3.2s cubic-bezier(0.12,0.85,0.15,1)}
+#wheel::after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 30px rgba(0,0,0,0.5)}
+.pointer{width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-bottom:22px solid var(--text);margin-bottom:-10px;z-index:2}
+.chat-box{height:260px;overflow:auto;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:10px}
+.chat-msg{padding:6px 8px;margin:6px 0;background:var(--card);border:1px solid var(--border);border-radius:10px;font-size:13px}
+.memory{ display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:360px;margin:0 auto }
+.mem{aspect-ratio:1;background:var(--card2);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer}
+.mem.flipped{background:rgba(0,229,204,0.15);border-color:var(--cyan)}
+.blind-row{display:flex;gap:8px;flex-wrap:wrap}
+.ttt{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-width:260px}
+.ttt div{aspect-ratio:1;background:var(--card2);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="container header-inner">
+    <div class="logo"><div class="logo-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 2 L28 9 L28 23 L16 30 L4 23 L4 9 Z" stroke="#00E5CC" stroke-width="2.2" fill="rgba(0,229,204,0.15)"/><path d="M16 8 L22 11.5 L22 20.5 L16 24 L10 20.5 L10 11.5 Z" fill="#00E5CC"/><circle cx="16" cy="16" r="3.5" fill="#080C14"/></svg></div><div><div class="logo-text">HEXA<span>LIVE</span></div><div class="logo-sub">GRATUIT • LÉGAL • HD</div></div></div>
+    <nav class="nav"><a href="index.html">Direct</a><a href="jeux.html" class="active">Jeux</a><a href="admin.html" style="opacity:0.4">Admin</a></nav>
+    <div class="header-actions"><a class="btn-primary" href="index.html#direct">▶ Regarder</a></div>
+  </div>
+</header>
+
+<section class="jeux-hero container">
+  <h1>Joue. Gagne. Reviens demain.</h1>
+  <p>5 jeux 100% gratuits, sans inscription, qui te font rester plus longtemps → plus de pub vue pour toi. Scores sauvegardés sur ton appareil.</p>
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-t="quiz">🧠 Quiz Quotidien</button>
+    <button class="tab" data-t="pronos">⚽ Pronos Ligue 1</button>
+    <button class="tab" data-t="roue">🎡 Roue 24h</button>
+    <button class="tab" data-t="chat">💬 Chat + Sondage</button>
+    <button class="tab" data-t="mini">🎮 Mini-jeux</button>
+  </div>
+</section>
+
+<main class="container" style="padding-bottom:30px">
+
+<!-- QUIZ -->
+<section id="panel-quiz" class="panel active">
+  <div class="game-card">
+    <h3>🧠 Quiz TV du jour — <span id="quizDate"></span></h3>
+    <p class="muted" style="font-size:12px">5 questions • 1 essai/jour • Partage ton score</p>
+    <div id="quizBox"></div>
+    <div id="quizResult" style="margin-top:12px"></div>
+    <button class="btn-primary" id="quizShare" style="display:none;margin-top:10px">Partager mon score →</button>
+  </div>
+</section>
+
+<!-- PRONOS -->
+<section id="panel-pronos" class="panel">
+  <div class="game-card">
+    <h3>⚽ Pronos du week-end</h3>
+    <p class="muted" style="font-size:12px">Choisis 1 / N / 2 • Classement local • Réinitialisé lundi</p>
+    <div id="pronosBox"></div>
+    <button class="btn-ghost" onclick="savePronos()" style="margin-top:12px">Enregistrer mes pronos</button>
+    <div id="pronosRank" class="muted" style="margin-top:8px;font-size:12px"></div>
+  </div>
+</section>
+
+<!-- ROUE -->
+<section id="panel-roue" class="panel">
+  <div class="game-card wheel-wrap">
+    <h3>🎡 Roue de la chance — 1 spin / jour</h3>
+    <p class="muted" style="font-size:12px">Gagne 24h sans pub, badge VIP, ou boost favoris</p>
+    <div class="pointer"></div>
+    <div id="wheel"></div>
+    <button class="btn-primary" id="spinBtn">🎡 Tourner la roue</button>
+    <div id="roueRes" style="font-weight:700"></div>
+    <p class="muted" style="font-size:11px">Stocké en local. Réessaie demain. (Premium sans pub = pub désactivée côté toi)</p>
+  </div>
+</section>
+
+<!-- CHAT -->
+<section id="panel-chat" class="panel">
+  <div class="game-card">
+    <h3>💬 Chat live + Sondage du direct</h3>
+    <div style="display:grid;grid-template-columns:1.2fr 0.8fr;gap:14px">
+      <div>
+        <div class="chat-box" id="chatBox"></div>
+        <div style="display:flex;gap:8px;margin-top:8px"><input id="chatInput" placeholder="Ton message..." style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:999px;padding:9px 12px;color:var(--text)"><button class="btn-primary" onclick="sendChat()">Envoyer</button></div>
+      </div>
+      <div>
+        <h4 style="font-size:14px">📊 Sondage en cours</h4>
+        <p id="pollQ" style="font-weight:700;margin:8px 0">TF1 — Tu regardes quoi ce soir ?</p>
+        <div id="pollOpts"></div>
+        <div id="pollRes" class="muted" style="font-size:12px;margin-top:8px"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MINI-JEUX -->
+<section id="panel-mini" class="panel">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+    <div class="game-card">
+      <h3>🧩 Memory HexaLive</h3>
+      <p class="muted" style="font-size:12px">Retrouve les paires de chaînes • Meilleur temps sauvegardé</p>
+      <div class="memory" id="memBoard"></div>
+      <div id="memInfo" class="muted" style="font-size:12px;margin-top:8px"></div>
+      <button class="btn-ghost" onclick="initMemory()" style="margin-top:8px">Recommencer</button>
+    </div>
+    <div class="game-card">
+      <h3>🎵 Blind Test Génériques</h3>
+      <p class="muted" style="font-size:12px">Devine la chaîne / l'émission</p>
+      <div id="blindQ" style="font-weight:700;margin:8px 0"></div>
+      <div class="blind-row" id="blindOpts"></div>
+      <div id="blindRes" style="margin-top:8px;font-weight:700"></div>
+      <button class="btn-ghost" onclick="nextBlind()" style="margin-top:8px">Question suivante</button>
+    </div>
+  </div>
+  <div class="game-card" style="margin-top:14px">
+    <h3>🎮 2048 TV — glisse avec les flèches</h3>
+    <p class="muted" style="font-size:12px">Fusionne les logos jusqu'à TF1 🏆</p>
+    <div class="ttt" id="grid2048"></div>
+    <div id="score2048" class="muted" style="font-size:12px;margin-top:8px"></div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer"><div class="container" style="text-align:center;padding:14px;color:#5A6A90;font-size:11px">© 2026 HexaLive — Jeux 100% gratuits, localStorage, sans serveur.</div></footer>
+<div class="toast" id="toast"></div>
+<script>
+// Tabs
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById('panel-'+b.dataset.t).classList.add('active');
+});
+const toast=m=>{const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)};
+
+// QUIZ
+const QUIZ_POOL=[
+ {q:"Quelle chaîne diffuse Koh-Lanta ?", a:["TF1","France 2","M6"], c:0},
+ {q:"Arte est connue pour ?", a:["Docu & culture","Télé-achat","Sport US"], c:0},
+ {q:"Le 20H de France 2 est à ?", a:["20h","19h","21h"], c:0},
+ {q:"Quotidien est sur ?", a:["TMC","C8","W9"], c:0},
+ {q:"Top Chef est sur ?", a:["M6","TF1","Arte"], c:0},
+ {q:"BFMTV est une chaîne ?", a:["Info","Jeunesse","Musique"], c:0},
+ {q:"Gulli s'adresse à ?", a:["Jeunesse","Seniors","Sportifs"], c:0},
+ {q:"France 24 diffuse en ?", a:["24/24 Monde","6h-22h","Week-end seulement"], c:0},
+ {q:"NRJ Hits diffuse ?", a:["Clips","Dessins animés","Météo"], c:0},
+ {q:"RMC Découverte : programme phare ?", a:["Wheeler Dealers","Koh-Lanta","TPMP"], c:0},
+ {q:"L'Équipe diffuse surtout ?", a:["Sport","Cuisine","Téléfilm"], c:0},
+ {q:"Quelle chaîne est 100% info ?", a:["LCI","Gulli","Game One"], c:0},
+];
+function daySeed(){const d=new Date();return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate()}
+function pickQuiz(){
+  const seed=daySeed(); const out=[]; const used=new Set();
+  for(let i=0;i<5;i++){ let idx=(seed*9301+49297*(i*7))%QUIZ_POOL.length; while(used.has(idx)) idx=(idx+1)%QUIZ_POOL.length; used.add(idx); out.push(QUIZ_POOL[idx])}
+  return out;
+}
+let quiz=pickQuiz(), qi=0, score=0;
+const qDate=document.getElementById('quizDate'); qDate.textContent=new Date().toLocaleDateString('fr-FR');
+const qBox=document.getElementById('quizBox'), qRes=document.getElementById('quizResult'), qShare=document.getElementById('quizShare');
+const qKey='hexa_quiz_'+daySeed();
+if(localStorage.getItem(qKey)){ const s=JSON.parse(localStorage.getItem(qKey)); qRes.innerHTML=`Déjà joué aujourd'hui : <b>${s.score}/5</b> — reviens demain !`; qShare.style.display='inline-flex'; qShare.onclick=()=>{navigator.clipboard.writeText(`J'ai fait ${s.score}/5 au Quiz HexaLive du ${qDate.textContent} ! Et toi ? https://lulu7755000-wq.github.io/hexalive/jeux.html`); toast('Score copié !')}; qBox.innerHTML='' } else { renderQ(); }
+function renderQ(){
+ if(qi>=quiz.length){ localStorage.setItem(qKey, JSON.stringify({score})); qRes.innerHTML=`<b>Score : ${score}/5</b> ${score>=4?'🏆 Bravo !':score>=2?'👏 Pas mal':'💪 Entraîne-toi demain'}`; qShare.style.display='inline-flex'; qShare.onclick=()=>{navigator.clipboard.writeText(`J'ai fait ${score}/5 au Quiz HexaLive du ${qDate.textContent} ! Et toi ? https://lulu7755000-wq.github.io/hexalive/jeux.html`); toast('Score copié !')}; qBox.innerHTML=''; return; }
+ const cur=quiz[qi]; qBox.innerHTML=`<div class="quiz-q">${qi+1}. ${cur.q}</div>`+cur.a.map((opt,i)=>`<button class="quiz-opt" onclick="answer(${i})">${opt}</button>`).join('');
+}
+function answer(i){
+ const cur=quiz[qi]; const opts=document.querySelectorAll('.quiz-opt');
+ opts.forEach((b,idx)=>{ b.disabled=true; if(idx===cur.c) b.classList.add('correct'); else if(idx===i) b.classList.add('wrong')});
+ if(i===cur.c) score++;
+ setTimeout(()=>{qi++; renderQ();}, 700);
+}
+window.answer=answer;
+
+// PRONOS
+const MATCHES=[{a:"PSG",b:"OM"},{a:"OL",b:"Lille"},{a:"Monaco",b:"Lens"}];
+let pronos=JSON.parse(localStorage.getItem('hexa_pronos')||'{}');
+const pBox=document.getElementById('pronosBox');
+function renderPronos(){
+ pBox.innerHTML=MATCHES.map((m,i)=>`<div class="prono-row"><span><b>${m.a}</b> - <b>${m.b}</b></span><span><button class="prono-btn ${pronos[i]==='1'?'active':''}" onclick="pickP(${i},'1')">1</button> <button class="prono-btn ${pronos[i]==='N'?'active':''}" onclick="pickP(${i},'N')">N</button> <button class="prono-btn ${pronos[i]==='2'?'active':''}" onclick="pickP(${i},'2')">2</button></span></div>`).join('');
+ document.getElementById('pronosRank').textContent=Object.keys(pronos).length?`Tes pronos : ${Object.values(pronos).join(' • ')} (sauvegardé)`:'Fais tes 3 pronos puis Enregistrer';
+}
+function pickP(i,v){ pronos[i]=v; renderPronos(); }
+function savePronos(){ localStorage.setItem('hexa_pronos', JSON.stringify(pronos)); toast('Pronos enregistrés !'); }
+window.pickP=pickP; window.savePronos=savePronos; renderPronos();
+
+// ROUE
+const prizes=["24h sans pub 🎉","Badge VIP 👑","+10 favoris","5 min pub offerte","Re-spin 🔄","Booster zapping ⚡"];
+const wheel=document.getElementById('wheel'), spinBtn=document.getElementById('spinBtn'), roueRes=document.getElementById('roueRes');
+const roueKey='hexa_roue_'+new Date().toISOString().slice(0,10);
+if(localStorage.getItem(roueKey)){ spinBtn.disabled=true; spinBtn.textContent="Déjà tourné aujourd'hui"; roueRes.textContent="Reviens demain : "+localStorage.getItem(roueKey); }
+spinBtn.onclick=()=>{
+ const deg= 1440 + Math.floor(Math.random()*360);
+ wheel.style.transform=`rotate(${deg}deg)`;
+ spinBtn.disabled=true;
+ setTimeout(()=>{
+   const idx=Math.floor(((360 - (deg%360))%360)/60);
+   const prize=prizes[idx%prizes.length];
+   roueRes.textContent="Gagné : "+prize;
+   localStorage.setItem(roueKey, prize);
+   if(prize.includes("sans pub")){ localStorage.setItem('hexa_noads_until', Date.now()+24*3600*1000); toast('24h sans pub activées !')}
+   else toast(prize);
+ }, 3300);
+};
+
+// CHAT + SONDAGE
+const chatBox=document.getElementById('chatBox');
+let msgs=JSON.parse(localStorage.getItem('hexa_chat')||'[{"u":"HexaLive","t":"Bienvenue sur le chat live ! 💬"},{"u":"Léo","t":"TF1 ce soir c'est Koh-Lanta 🔥"}]');
+function renderChat(){ chatBox.innerHTML=msgs.slice(-30).map(m=>`<div class="chat-msg"><b>${m.u}:</b> ${m.t}</div>`).join(''); chatBox.scrollTop=chatBox.scrollHeight; }
+renderChat();
+function sendChat(){
+ const v=document.getElementById('chatInput').value.trim(); if(!v) return;
+ msgs.push({u:"Toi",t:v}); localStorage.setItem('hexa_chat', JSON.stringify(msgs.slice(-50))); document.getElementById('chatInput').value=''; renderChat();
+ setTimeout(()=>{ const bots=["Amine: Pareil !","Julie: Grave 🔥","Max: +1","Nina: Je regarde sur HexaLive"]; const r=bots[Math.floor(Math.random()*bots.length)]; const [u,...rest]=r.split(':'); msgs.push({u,t:rest.join(':')}); localStorage.setItem('hexa_chat', JSON.stringify(msgs)); renderChat(); }, 900);
+}
+window.sendChat=sendChat;
+document.getElementById('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter') sendChat()});
+// Sondage
+const pollQs=["TF1 — Tu regardes quoi ce soir ?","M6 — Top Chef : qui gagne ?","Match du soir : qui gagne ?"];
+const pollOpts=[["Koh-Lanta","Film","Info"],["Chef A","Chef B","Je zappe"],["PSG","OM","Nul"]];
+let pollIdx= daySeed()%pollQs.length;
+let pollVotes=JSON.parse(localStorage.getItem('hexa_poll')||'{}');
+document.getElementById('pollQ').textContent=pollQs[pollIdx];
+function renderPoll(){
+ const opts=pollOpts[pollIdx];
+ const total=opts.reduce((s,_,i)=>s+(pollVotes[i]||0),0)||1;
+ document.getElementById('pollOpts').innerHTML=opts.map((o,i)=>{
+   const v=pollVotes[i]||0; const pct=Math.round(v/total*100);
+   return `<button class="quiz-opt" onclick="vote(${i})">${o} <span class="muted" style="float:right">${pollVotes[i]?'• '+pct+'%':''}</span></button>`;
+ }).join('');
+ document.getElementById('pollRes').textContent= Object.keys(pollVotes).length?`Total votes : ${Object.values(pollVotes).reduce((a,b)=>a+b,0)}` : 'Vote pour voir les %';
+}
+function vote(i){ pollVotes[i]=(pollVotes[i]||0)+1; localStorage.setItem('hexa_poll', JSON.stringify(pollVotes)); renderPoll(); toast('Vote enregistré !'); }
+window.vote=vote; renderPoll();
+
+// MEMORY
+const EMOJIS=["📺","📺","⚽","⚽","🎬","🎬","🎮","🎮","🎵","🎵","📰","📰","📻","📻","🏆","🏆"];
+let mem=[], flipped=[], matched=0, moves=0;
+function initMemory(){
+ mem=[...EMOJIS].sort(()=>Math.random()-0.5);
+ matched=0; moves=0; flipped=[];
+ document.getElementById('memBoard').innerHTML=mem.map((e,i)=>`<div class="mem" data-i="${i}" onclick="flip(${i})">❓</div>`).join('');
+ document.getElementById('memInfo').textContent='Retrouve les paires !';
+ const best=localStorage.getItem('hexa_mem_best'); if(best) document.getElementById('memInfo').textContent='Meilleur : '+best+' coups';
+}
+function flip(i){
+ if(flipped.length>=2 || matched>=8) return;
+ const el=document.querySelectorAll('.mem')[i];
+ if(el.classList.contains('flipped')) return;
+ el.classList.add('flipped'); el.textContent=mem[i]; flipped.push(i);
+ if(flipped.length===2){ moves++; const [a,b]=flipped;
+   if(mem[a]===mem[b]){ matched++; flipped=[]; if(matched===8){ const cur=localStorage.getItem('hexa_mem_best'); if(!cur || moves < parseInt(cur)) localStorage.setItem('hexa_mem_best', moves); document.getElementById('memInfo').textContent=`Bravo en ${moves} coups ! Meilleur : ${localStorage.getItem('hexa_mem_best')}`; toast('Memory gagné !')}}
+   else { setTimeout(()=>{ document.querySelectorAll('.mem')[a].classList.remove('flipped'); document.querySelectorAll('.mem')[a].textContent='❓'; document.querySelectorAll('.mem')[b].classList.remove('flipped'); document.querySelectorAll('.mem')[b].textContent='❓'; flipped=[]; }, 700); }
+ }
+}
+window.flip=flip; window.initMemory=initMemory; initMemory();
+
+// BLIND TEST
+const BLIND=[{q:"Générique avec '20H' ?",o:["France 2","M6","Arte"],c:0},{q:"Chaîne 100% sport gratuit ?",o:["L'Équipe","C8","Gulli"],c:0},{q:"TPMP est sur ?",o:["C8","TMC","W9"],c:0},{q:"Top Chef sur ?",o:["M6","TF1","France 5"],c:0},{q:"France 24 = ?",o:["Info monde","Jeunesse","Musique"],c:0}];
+let bi=0;
+function nextBlind(){
+ bi=(bi+1)%BLIND.length; const cur=BLIND[bi];
+ document.getElementById('blindQ').textContent=cur.q;
+ document.getElementById('blindOpts').innerHTML=cur.o.map((o,i)=>`<button class="quiz-opt" onclick="ansBlind(${i})">${o}</button>`).join('');
+ document.getElementById('blindRes').textContent='';
+}
+function ansBlind(i){
+ const cur=BLIND[bi]; document.getElementById('blindRes').textContent= i===cur.c?'✅ Bravo !':'❌ Raté';
+ document.getElementById('blindRes').style.color= i===cur.c?'#00E5CC':'#FF2E2E';
+ if(i===cur.c) toast('Blind test réussi !');
+}
+window.nextBlind=nextBlind; window.ansBlind=ansBlind; nextBlind();
+
+// 2048 SIMPLIFIE 4x4
+let g2048=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]], score2048=0;
+function add2048(){ const empt=[]; for(let r=0;r<4;r++) for(let c=0;c<4;c++) if(!g2048[r][c]) empt.push([r,c]); if(!empt.length) return; const [r,c]=empt[Math.floor(Math.random()*empt.length)]; g2048[r][c]= Math.random()<0.9?2:4; }
+function draw2048(){
+ const grid=document.getElementById('grid2048'); grid.innerHTML='';
+ for(let r=0;r<4;r++) for(let c=0;c<4;c++){ const v=g2048[r][c]; const d=document.createElement('div'); d.textContent=v||''; d.style.background=v?`rgba(0,229,204,${0.15+v/2048})`:'rgba(255,255,255,0.04)'; grid.appendChild(d); }
+ document.getElementById('score2048').textContent='Score : '+score2048+'  (Flèches pour jouer)';
+}
+function move2048(dir){
+ let moved=false;
+ const rot=(m)=>m[0].map((_,i)=>m.map(r=>r[i]).reverse());
+ const rev=(m)=>m.map(r=>[...r].reverse());
+ let g=g2048;
+ if(dir==='up'){ g=rot(g); } if(dir==='down'){ g=rot(rot(rot(g))); } if(dir==='right'){ g=rev(g); }
+ for(let r=0;r<4;r++){
+   let row=g[r].filter(v=>v);
+   for(let i=0;i<row.length-1;i++) if(row[i]===row[i+1]){ row[i]*=2; score2048+=row[i]; row.splice(i+1,1); }
+   while(row.length<4) row.push(0);
+   if(row.join(',')!==g[r].join(',')) moved=true;
+   g[r]=row;
+ }
+ if(dir==='up'){ g=rot(rot(rot(g))); } if(dir==='down'){ g=rot(g); } if(dir==='right'){ g=rev(g); }
+ if(moved){ g2048=g; add2048(); draw2048(); if(Math.max(...g2048.flat())>=32) toast('Bien joué !'); }
+}
+document.addEventListener('keydown',e=>{ if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)){ e.preventDefault(); move2048({ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right'}[e.key]); }});
+add2048(); add2048(); draw2048();
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
+</script>
+</body>
+</html>
