@@ -1,7 +1,9 @@
 // HexaLive Analytics 100% gratuit - local + cloud (CountAPI)
 (function(){
   const NS="hexalive", KEY="lulu7755000-wq";
+  const isOwner = localStorage.getItem("hexa_is_owner")==="1";
   function inc(key){
+    if(isOwner) return; // ne compte pas le propriétaire
     try{
       let v=parseInt(localStorage.getItem("hexa_stat_"+key)||"0");
       localStorage.setItem("hexa_stat_"+key, v+1);
