@@ -229,7 +229,7 @@ spinBtn.onclick=()=>{
 
 // CHAT + SONDAGE
 const chatBox=document.getElementById('chatBox');
-let msgs=JSON.parse(localStorage.getItem('hexa_chat')||'[{"u":"HexaLive","t":"Bienvenue sur le chat live ! 💬"},{"u":"Léo","t":"TF1 ce soir c'est Koh-Lanta 🔥"}]');
+let msgs=JSON.parse(localStorage.getItem('hexa_chat')||'[{"u":"HexaLive","t":"Bienvenue sur le chat live !"},{"u":"Léo","t":"TF1 ce soir Koh-Lanta"}]');
 function renderChat(){ chatBox.innerHTML=msgs.slice(-30).map(m=>`<div class="chat-msg"><b>${m.u}:</b> ${m.t}</div>`).join(''); chatBox.scrollTop=chatBox.scrollHeight; }
 renderChat();
 function sendChat(){
