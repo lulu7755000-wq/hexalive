@@ -13,8 +13,31 @@ const channels = [
   {id:'bfm', name:'BFMTV', cat:'info', color:'#081A8A', type:'info', prog:'Info en continu', viewers: '11,5k', url:'https://www.bfmtv.com/en-direct/', embedBlocked:false, embed:'https://www.bfmtv.com/en-direct/'},
   {id:'cnews', name:'CNEWS', cat:'info', color:'#003366', type:'info', prog:'Débat', viewers: '4,8k', url:'https://www.cnews.fr/direct', embedBlocked:true},
   {id:'frinfo', name:'franceinfo:', cat:'info', color:'#FFC700', type:'info', prog:'Info', viewers: '2,9k', url:'https://www.francetvinfo.fr/en-direct/tv.html', embedBlocked:false, embed:'https://www.francetvinfo.fr/en-direct/tv.html'},
-  {id:'gulli', name:'Gulli', cat:'general', color:'#FFD500', type:'tnt', prog:'Jeunesse', viewers: '3,6k', url:'https://www.gulli.fr/direct', embedBlocked:true},
+  {id:'gulli', name:'Gulli', cat:'general', color:'#FFD500', type:'jeunesse', prog:'Jeunesse', viewers: '3,6k', url:'https://www.gulli.fr/direct', embedBlocked:true},
   {id:'lcp', name:'LCP', cat:'info', color:'#0A3D62', type:'info', prog:'Parlement', viewers: '1,2k', url:'https://www.lcp.fr/direct', embedBlocked:false, embed:'https://www.lcp.fr/direct'},
+  // BOOST MAX - SPORT
+  {id:'lequipe', name:"L'Équipe", cat:'sport', color:'#0A7A2E', type:'sport', prog:'Live Sport 24/24', viewers: '9,8k', url:'https://www.lequipe.fr/Football/direct/', embedBlocked:true},
+  {id:'eurosport1', name:'Eurosport 1', cat:'sport', color:'#0A1A4A', type:'sport', prog:'Tennis • Cyclisme', viewers: '7,4k', url:'https://www.eurosport.fr/', embedBlocked:true},
+  {id:'rmcsport', name:'RMC Sport', cat:'sport', color:'#D50000', type:'sport', prog:'Ligue des Champions', viewers: '6,1k', url:'https://rmcsport.bfmtv.com/', embedBlocked:true},
+  {id:'beinsport', name:'beIN SPORTS', cat:'sport', color:'#00A651', type:'sport', prog:'Foot Live', viewers: '5,9k', url:'https://www.beinsports.com/fr/', embedBlocked:true},
+  {id:'canalplus', name:'Canal+', cat:'sport', color:'#000000', type:'sport', prog:'Top 14 • F1', viewers: '4,7k', url:'https://www.canalplus.com/live/', embedBlocked:true},
+  {id:'sportfrance', name:'Sport en France', cat:'sport', color:'#003087', type:'sport', prog:'JO • Direct', viewers: '2,8k', url:'https://www.sportenfrance.com/direct/', embedBlocked:false, embed:'https://www.sportenfrance.com/direct/'},
+  // JEUNESSE & FAMILLE
+  {id:'canalj', name:'Canal J', cat:'jeunesse', color:'#FF6B00', type:'jeunesse', prog:'Dessins animés', viewers: '3,1k', url:'https://www.canalplus.com/enfant/canal-j/', embedBlocked:true},
+  {id:'tiji', name:'TiJi', cat:'jeunesse', color:'#E52994', type:'jeunesse', prog:'Petits', viewers: '2,4k', url:'https://www.tiji.fr/', embedBlocked:true},
+  {id:'teletoon', name:'Télétoon+', cat:'jeunesse', color:'#FFD500', type:'jeunesse', prog:'Manga', viewers: '2,1k', url:'https://www.teletoonplus.fr/', embedBlocked:true},
+  {id:'boomerang', name:'Boomerang', cat:'jeunesse', color:'#00BFFF', type:'jeunesse', prog:'Tom & Jerry', viewers: '1,9k', url:'https://www.boomerangtv.fr/', embedBlocked:true},
+  // DECOUVERTE & CULTURE
+  {id:'rmcdec', name:'RMC Découverte', cat:'decouverte', color:'#0A2A4A', type:'tnt', prog:'Wheeler Dealers', viewers: '4,3k', url:'https://rmcdecouverte.bfmtv.com/direct/', embedBlocked:true},
+  {id:'rmcstory', name:'RMC Story', cat:'decouverte', color:'#1A1A5A', type:'tnt', prog:'Enquêtes', viewers: '3,9k', url:'https://rmcstory.bfmtv.com/direct/', embedBlocked:true},
+  {id:'ushaia', name:'Ushuaïa TV', cat:'decouverte', color:'#0A7A52', type:'decouverte', prog:'Nature 4K', viewers: '2,2k', url:'https://www.ushuaiatv.fr/', embedBlocked:true},
+  {id:'euronews', name:'Euronews', cat:'info', color:'#003366', type:'info', prog:'Europe Info', viewers: '1,8k', url:'https://fr.euronews.com/live', embedBlocked:false, embed:'https://fr.euronews.com/live'},
+  {id:'france24', name:'France 24', cat:'info', color:'#0099CC', type:'info', prog:'Monde 24/24', viewers: '3,3k', url:'https://www.france24.com/fr/direct', embedBlocked:false, embed:'https://www.france24.com/fr/direct'},
+  // MUSIQUE & DIVERTISSEMENT
+  {id:'nrjhits', name:'NRJ Hits', cat:'musique', color:'#FF0080', type:'musique', prog:'Clips non-stop', viewers: '2,6k', url:'https://www.nrj.fr/nrj-hits', embedBlocked:true},
+  {id:'mtv', name:'MTV', cat:'musique', color:'#000000', type:'musique', prog:'Hits', viewers: '2,1k', url:'https://www.mtv.fr/', embedBlocked:true},
+  {id:'mcm', name:'MCM', cat:'musique', color:'#FFD500', type:'musique', prog:'Top 50', viewers: '1,7k', url:'https://www.mcm.fr/', embedBlocked:true},
+  {id:'gameone', name:'Game One', cat:'musique', color:'#7B00FF', type:'musique', prog:'Gaming • Esport', viewers: '1,4k', url:'https://www.gameone.net/', embedBlocked:true},
 ];
 
 const tonight = [
