@@ -144,6 +144,7 @@
 
 <footer class="footer"><div class="container" style="text-align:center;padding:14px;color:#5A6A90;font-size:11px">© 2026 HexaLive — Jeux 100% gratuits, localStorage, sans serveur.</div></footer>
 <div class="toast" id="toast"></div>
+<script src="analytics.js"></script>
 <script>
 // Tabs
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
@@ -179,7 +180,7 @@ let quiz=pickQuiz(), qi=0, score=0;
 const qDate=document.getElementById('quizDate'); qDate.textContent=new Date().toLocaleDateString('fr-FR');
 const qBox=document.getElementById('quizBox'), qRes=document.getElementById('quizResult'), qShare=document.getElementById('quizShare');
 const qKey='hexa_quiz_'+daySeed();
-if(localStorage.getItem(qKey)){ const s=JSON.parse(localStorage.getItem(qKey)); qRes.innerHTML=`Déjà joué aujourd'hui : <b>${s.score}/5</b> — reviens demain !`; qShare.style.display='inline-flex'; qShare.onclick=()=>{navigator.clipboard.writeText(`J'ai fait ${s.score}/5 au Quiz HexaLive du ${qDate.textContent} ! Et toi ? https://lulu7755000-wq.github.io/hexalive/jeux.html`); toast('Score copié !')}; qBox.innerHTML='' } else { renderQ(); }
+if(localStorage.getItem(qKey)){ const s=JSON.parse(localStorage.getItem(qKey)); qRes.innerHTML=`Déjà joué aujourd'hui : <b>${s.score}/5</b> — reviens demain ! <button class="btn-ghost" onclick="localStorage.removeItem(qKey); location.reload()" style="margin-left:8px">Rejouer (test)</button>`; qShare.style.display='inline-flex'; qShare.onclick=()=>{navigator.clipboard.writeText(`J'ai fait ${s.score}/5 au Quiz HexaLive du ${qDate.textContent} ! Et toi ? https://lulu7755000-wq.github.io/hexalive/jeux.html`); toast('Score copié !')}; qBox.innerHTML='' } else { renderQ(); }
 function renderQ(){
  if(qi>=quiz.length){ localStorage.setItem(qKey, JSON.stringify({score})); qRes.innerHTML=`<b>Score : ${score}/5</b> ${score>=4?'🏆 Bravo !':score>=2?'👏 Pas mal':'💪 Entraîne-toi demain'}`; qShare.style.display='inline-flex'; qShare.onclick=()=>{navigator.clipboard.writeText(`J'ai fait ${score}/5 au Quiz HexaLive du ${qDate.textContent} ! Et toi ? https://lulu7755000-wq.github.io/hexalive/jeux.html`); toast('Score copié !')}; qBox.innerHTML=''; return; }
  const cur=quiz[qi]; qBox.innerHTML=`<div class="quiz-q">${qi+1}. ${cur.q}</div>`+cur.a.map((opt,i)=>`<button class="quiz-opt" onclick="answer(${i})">${opt}</button>`).join('');
@@ -188,6 +189,7 @@ function answer(i){
  const cur=quiz[qi]; const opts=document.querySelectorAll('.quiz-opt');
  opts.forEach((b,idx)=>{ b.disabled=true; if(idx===cur.c) b.classList.add('correct'); else if(idx===i) b.classList.add('wrong')});
  if(i===cur.c) score++;
+ if(window.hexaTrack) hexaTrack(i===cur.c?'quiz_correct':'quiz_wrong');
  setTimeout(()=>{qi++; renderQ();}, 700);
 }
 window.answer=answer;
@@ -201,7 +203,7 @@ function renderPronos(){
  document.getElementById('pronosRank').textContent=Object.keys(pronos).length?`Tes pronos : ${Object.values(pronos).join(' • ')} (sauvegardé)`:'Fais tes 3 pronos puis Enregistrer';
 }
 function pickP(i,v){ pronos[i]=v; renderPronos(); }
-function savePronos(){ localStorage.setItem('hexa_pronos', JSON.stringify(pronos)); toast('Pronos enregistrés !'); }
+function savePronos(){ localStorage.setItem('hexa_pronos', JSON.stringify(pronos)); if(window.hexaTrack) hexaTrack('pronos_save'); toast('Pronos enregistrés !'); }
 window.pickP=pickP; window.savePronos=savePronos; renderPronos();
 
 // ROUE
@@ -213,6 +215,7 @@ spinBtn.onclick=()=>{
  const deg= 1440 + Math.floor(Math.random()*360);
  wheel.style.transform=`rotate(${deg}deg)`;
  spinBtn.disabled=true;
+ if(window.hexaTrack) hexaTrack('roue_spin');
  setTimeout(()=>{
    const idx=Math.floor(((360 - (deg%360))%360)/60);
    const prize=prizes[idx%prizes.length];
@@ -220,6 +223,7 @@ spinBtn.onclick=()=>{
    localStorage.setItem(roueKey, prize);
    if(prize.includes("sans pub")){ localStorage.setItem('hexa_noads_until', Date.now()+24*3600*1000); toast('24h sans pub activées !')}
    else toast(prize);
+   if(window.hexaTrack) hexaTrack('roue_prize_'+prize.slice(0,10));
  }, 3300);
 };
 

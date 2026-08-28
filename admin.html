@@ -39,6 +39,39 @@
   </div>
   <p class="muted">Coût fixe : 10€ nom de domaine/an. Hébergement Vercel gratuit jusqu'à 100k visites/mois. Tout le reste (PWA, favoris, newsletter Brevo) est gratuit.</p>
 </div>
-<p style="margin-top:24px"><a href="index.html" style="color:#00E5CC">← Retour site</a></p>
+<div class="game-card" style="margin-top:24px">
+  <h3>📊 Dashboard visites — 100% gratuit</h3>
+  <p class="muted" style="font-size:12px">Local (ton navigateur) + Cloud CountAPI (global). Rafraîchis pour voir.</p>
+  <div id="adminStats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px"></div>
+  <div style="margin-top:12px">
+    <h4 style="font-size:13px">Pourquoi ils viennent (clics)</h4>
+    <div id="adminWhy" class="muted" style="font-size:12px"></div>
+  </div>
+  <div style="margin-top:12px">
+    <h4 style="font-size:13px">Jeux joués</h4>
+    <div id="adminGames" class="muted" style="font-size:12px"></div>
+  </div>
+</div>
+<script src="analytics.js"></script>
+<script>
+(function(){
+  const keys=["visites_total","visites_index","visites_jeux","src_direct","src_tiktok","src_youtube","src_instagram","src_google","src_twitter"];
+  const box=document.getElementById("adminStats");
+  box.innerHTML=keys.map(k=>{
+    const v=localStorage.getItem("hexa_stat_"+k)||"0";
+    return `<div style="background:rgba(255,255,255,0.06);border:1px solid #1E3050;border-radius:10px;padding:10px"><div style="font-size:11px;color:#8A94AD">${k}</div><div style="font-size:20px;font-weight:800">${v}</div></div>`;
+  }).join("");
+  const why=["why_sport","why_info","why_jeux"];
+  document.getElementById("adminWhy").innerHTML=why.map(k=>{
+    const v=localStorage.getItem("hexa_stat_ev_"+k)||"0";
+    return `${k.replace("why_","")}: <b>${v}</b>`;
+  }).join(" • ");
+  const games=["ev_quiz_correct","ev_quiz_wrong","ev_pronos_save","ev_roue_spin","ev_play_lequipe","ev_play_TF1"];
+  // show all ev_*
+  const evs=[]; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k.startsWith("hexa_stat_ev_")) evs.push(`${k.replace("hexa_stat_ev_","")}: <b>${localStorage.getItem(k)}</b>`); }
+  document.getElementById("adminGames").innerHTML=evs.length?evs.join(" • "):"Aucun jeu encore joué sur cet appareil. Joue sur jeux.html pour tester.";
+})();
+</script>
+<p style="margin-top:24px"><a href="index.html" style="color:#00E5CC">← Retour site</a> • <a href="jeux.html" style="color:#00E5CC">Aller aux jeux</a></p>
 </body>
 </html>

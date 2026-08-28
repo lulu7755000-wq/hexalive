@@ -124,6 +124,15 @@
   </div>
 </section>
 
+<div class="container" style="text-align:center;padding:12px 0">
+  <span class="muted" style="font-size:11px">👥 <b id="livePlayers">—</b> joueurs aujourd'hui • Suivi 100% gratuit</span>
+  <div style="margin-top:8px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+    <span class="muted" style="font-size:11px">Pourquoi es-tu venu ?</span>
+    <button class="btn-small" onclick="hexaTrack('why_sport'); toast('Merci ! ⚽')">⚽ Sport</button>
+    <button class="btn-small" onclick="hexaTrack('why_info'); toast('Merci ! 📰')">📰 Info</button>
+    <button class="btn-small" onclick="hexaTrack('why_jeux'); location.href='jeux.html'">🎮 Jeux</button>
+  </div>
+</div>
 <main class="container">
   <!-- RETENTION ROW 1 : REPRENDRE -->
   <section class="row-section" id="rowContinue" style="display:none">
@@ -256,6 +265,7 @@
 
 <div class="toast" id="toast"></div>
 
+<script src="analytics.js"></script>
 <script src="app.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
 </body>

@@ -166,6 +166,7 @@ const btnOpenOfficial=document.getElementById('btnOpenOfficial');
 function playInHero(ch){
   currentChannel=ch;
   addHistory(ch);
+  if(window.hexaTrack) hexaTrack('play_'+ch.id);
   heroChannelName.textContent=ch.name+' — '+ch.prog;
   viewerCountEl.textContent=ch.viewers;
   btnOpenOfficial.style.display='inline-flex';
