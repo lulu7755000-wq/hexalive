@@ -72,6 +72,7 @@
   document.getElementById("adminGames").innerHTML=evs.length?evs.join(" • "):"Aucun jeu encore joué sur cet appareil. Joue sur jeux.html pour tester.";
 })();
 </script>
-<p style="margin-top:24px"><a href="index.html" style="color:#00E5CC">← Retour site</a> • <a href="jeux.html" style="color:#00E5CC">Aller aux jeux</a></p>
+<p style="margin-top:24px"><button class="btn-ghost" onclick="if(confirm('Effacer tous les compteurs locaux ?')){Object.keys(localStorage).forEach(k=>{if(k.startsWith('hexa_')) localStorage.removeItem(k)}); location.reload()}">🗑️ Reset compteurs locaux</button></p>
+<p style="margin-top:12px"><a href="index.html" style="color:#00E5CC">← Retour site</a> • <a href="jeux.html" style="color:#00E5CC">Aller aux jeux</a></p>
 </body>
 </html>
